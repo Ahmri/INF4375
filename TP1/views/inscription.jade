@@ -1,0 +1,47 @@
+doctype 5
+html
+  head
+    meta(charset="utf-8")
+    title= tile
+    link(rel="stylesheet", href="stylesheets/style.css")
+    script(src="javascripts/script.js")
+  body
+    form(method="post")
+    fieldset
+      legend Identification
+      p
+        label(for="user_code") Code permanent:
+          input(type="text", id="user_code")
+      p
+        label(for="user_prog") Programme: 
+          input(type="text", id="user_prog")  
+  
+    fieldset(id="Messages")
+      legend Messages
+
+    fieldset(id="listeCours")
+      legend Choix de cours
+      p Entrez vos choix de cours sous le format Cours-Groupe
+      p Exemple: INF4375-30
+      
+      p
+        label(for="cours0") Cours:
+          input(type="text", id="cours0", onchange="validateCours(0)")
+      p
+        label(for="cours1") Cours:
+          input(type="text", id="cours1", onchange="validateCours(1)")
+      p
+        label(for="cours2") Cours:
+          input(type="text", id="cours2", onchange="validateCours(2)")
+      p
+        label(for="cours3") Cours:
+          input(type="text", id="cours3", onchange="validateCours(3)")
+      p
+        label(for="cours4") Cours:
+          input(type="text", id="cours4", onchange="validateCours(4)")
+      p
+        label(for="cours5") Cours:
+          input(type="text", id="cours5", onchange="validateCours(5)")
+
+    p.buttons
+      input(type="submit", id="submit", value="Save")

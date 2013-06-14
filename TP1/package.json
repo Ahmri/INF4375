@@ -1,0 +1,16 @@
+{
+  "name": "TP1",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.2.5",
+    "jade": "*",
+    "stylus": "*",
+    "xmldom": "~0.1.16",
+    "iconv-lite": "~0.2.10",
+    "request": "~2.21.0"
+  }
+}
