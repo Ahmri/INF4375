@@ -1,8 +1,10 @@
 
-var request = require('request');
-var qs = require('querystring');
-var iconv = require("iconv-lite");
-var parser = require("../public/javascripts/UqamResponseParser.js");
+var request = require('request')
+    , qs = require('querystring')
+    , iconv = require("iconv-lite")
+    , parser = require("../public/javascripts/UqamResponseParser.js")
+    , fs = require('fs')
+    , xmldom = require("xmldom");
 
 /*
  * GET home page.
@@ -43,3 +45,107 @@ exports.cours = function(req, res){
 exports.inscription = function(req, res){
    res.render('inscription', { title: 'Inscription' }); 
 };
+
+exports.xml = function(req, res){    
+    fs.readFile("inscriptions.xml", function(err, data) {
+        if (err) {
+            console.log("Error reading XML");
+            var xml =   '<?xml version="1.0" encoding="UTF-8"?>' +
+                        '<inscriptions></inscriptions>';
+            var domRoot = new xmldom.DOMParser().parseFromString(xml);          
+            var inscription = createInscription(domRoot, req);
+
+            domRoot.getElementsByTagName("inscriptions")[0].appendChild(inscription);
+
+            fs.writeFile("inscriptions.xml", domRoot.toString(), function(err) {
+                if(err) {
+                    res.writeHead(200, {'content-type': 'text/plain', 'charset':'utf-8'});
+                    res.write("Une erreur est survenu lors de l'enrigestrement");
+                    res.end();                    
+                }
+                else{
+                    res.render('success');
+                }
+            });
+        } 
+        else {           
+            var domRoot = new xmldom.DOMParser().parseFromString(data.toString());
+            var inscription = createInscription(domRoot, req);
+
+            domRoot.getElementsByTagName("inscriptions")[0].appendChild(inscription);            
+            fs.unlink('inscriptions.xml', function (err) {
+                if (err) throw err;                    
+            });            
+            
+            fs.writeFile("inscriptions.xml", domRoot.toString(), function(err) {
+                if(err) {
+                    res.writeHead(200, {'content-type': 'text/plain', 'charset':'utf-8'});
+                    res.write("Une erreur est survenu lors de l'enrigestrement");
+                    res.end();                    
+                }
+                else{
+                   res.render('success');
+                }
+            });            
+         }
+    });    
+};
+
+function createInscription(domRoot, req){    
+    var inscription = domRoot.createElement("inscription");
+    var code_perm = domRoot.createElement("codePermanent");
+    var code_perm_text = domRoot.createTextNode(req.body.code_permanent.toString().toUpperCase());
+    code_perm.appendChild(code_perm_text);
+    inscription.appendChild(code_perm);
+
+    var code_prog = domRoot.createElement("programme");
+    var code_prog_text = domRoot.createTextNode(req.body.user_prog.toString().toUpperCase());
+    code_prog.appendChild(code_prog_text);
+    inscription.appendChild(code_prog);
+
+    var cours;
+    var cours_text;
+
+    if (req.body.cours0 !== ""){
+        cours = domRoot.createElement("cours");
+        cours_text = domRoot.createTextNode(req.body.cours0.toString().toUpperCase());
+        cours.appendChild(cours_text);
+        inscription.appendChild(cours);
+    }
+
+    if (req.body.cours1 !== ""){
+        cours = domRoot.createElement("cours");
+        cours_text = domRoot.createTextNode(req.body.cours1.toString().toUpperCase());
+        cours.appendChild(cours_text);
+        inscription.appendChild(cours);
+    }
+
+    if (req.body.cours2 !== ""){
+        cours = domRoot.createElement("cours");
+        cours_text = domRoot.createTextNode(req.body.cours2.toString().toUpperCase());
+        cours.appendChild(cours_text);
+        inscription.appendChild(cours);
+    }
+
+    if (req.body.cours3 !== ""){
+        cours = domRoot.createElement("cours");
+        cours_text = domRoot.createTextNode(req.body.cours3.toString().toUpperCase());
+        cours.appendChild(cours_text);
+        inscription.appendChild(cours);
+    }
+
+    if (req.body.cours4 !== ""){
+        cours = domRoot.createElement("cours");
+        cours_text = domRoot.createTextNode(req.body.cours4.toString().toUpperCase());
+        cours.appendChild(cours_text);
+        inscription.appendChild(cours);
+    }
+
+    if (req.body.cours5 !== ""){
+        cours = domRoot.createElement("cours");
+        cours_text = domRoot.createTextNode(req.body.cours5.toString().toUpperCase());
+        cours.appendChild(cours_text);
+        inscription.appendChild(cours);
+    }
+    return inscription;
+}

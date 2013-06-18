@@ -8,6 +8,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
+
 var app = express();
 
 // all environments
@@ -29,5 +30,7 @@ if ('development' == app.get('env')) {
 
 app.get('/inscription', routes.inscription);
 app.get('/:info/:prog/:sigle/:groupe', routes.cours);
+
+app.post('/inscription', routes.xml);
 
 http.createServer(app).listen(app.get('port'));
