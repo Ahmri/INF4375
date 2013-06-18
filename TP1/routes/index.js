@@ -6,13 +6,6 @@ var request = require('request')
     , fs = require('fs')
     , xmldom = require("xmldom");
 
-/*
- * GET home page.
- */
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
-};
-
 exports.cours = function(req, res){    
     var params = qs.stringify({sigle: req.params.sigle, code_prog: req.params.prog, an_ses2: "Automne 2013", Iframe: 0});
     request.post({
