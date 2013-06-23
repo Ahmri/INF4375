@@ -139,3 +139,12 @@ function checkConflit(ind){
         }          
     }
 }
+
+function resetForm(){
+    for (var i = 0; i < 6; i++){
+        coursInscrit[i] = "";
+        document.getElementById("cours"+i).value = "";
+    }
+    calcCourses();
+    validateForm();
+}

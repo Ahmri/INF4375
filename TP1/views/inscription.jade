@@ -14,7 +14,7 @@ html
             input(type="text", id="code_permanent", name="code_permanent")
         p
           label(for="user_prog") Programme: 
-            input(type="text", id="user_prog", name="user_prog")
+            input(type="text", id="user_prog", onchange="resetForm()", name="user_prog")
   
       fieldset(id="Messages")
         legend Messages
